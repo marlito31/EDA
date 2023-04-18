@@ -1,0 +1,44 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+typedef struct autor
+{
+    char *nome;
+    int publi;
+    int *cit;
+    int indice;
+} autor;
+
+
+void indice_h(int n, autor *v)
+{
+    for (int i = 0; i < n; i++)
+    {
+        for (int j = 0; j < v[i].publi; j++)
+        {
+            
+        }
+        
+    }
+    
+}
+
+int main()
+{
+    int n;
+    scanf("%d", &n);
+    autor *v = malloc(n * sizeof(autor));
+    for (int i = 0; i < n; i++)
+    {
+        v[i].nome = malloc(30 * sizeof(char));
+        scanf("%s %d", v[i].nome, &v[i].publi);
+        v[i].cit = malloc(v[i].publi * sizeof(int));
+
+        for (int j = 0; j < v[i].publi; j++)
+        {
+            scanf("%d", &v[i].cit[j]);
+        }
+    }
+
+    return 0;
+}
