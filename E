@@ -4,7 +4,7 @@
 
 typedef struct pilotos
 {
-    char *str;
+    char str[31];
     double t;
 } pilotos;
 
@@ -27,6 +27,7 @@ static void merge(pilotos *v, pilotos *v1, pilotos *v2, int size)
          */
         if (v1[j].t <= v2[k].t)
         {
+            // v[i] = v1[j++];
             strcpy(v[i].str, v1[j].str);
             v[i].t = v1[j].t;
             j++;
@@ -35,6 +36,7 @@ static void merge(pilotos *v, pilotos *v1, pilotos *v2, int size)
          * segunda metade no vetor resultado */
         else
         {
+            // v[i] = v2[k++];
             strcpy(v[i].str, v2[k].str);
             v[i].t = v2[k].t;
             k++;
@@ -45,19 +47,21 @@ static void merge(pilotos *v, pilotos *v1, pilotos *v2, int size)
     while (j < size_v1)
     {
         /* Copiamos os elementos para o vetor resultado */
+        // v[i++] = v1[j++];
         strcpy(v[i].str, v1[j].str);
         v[i].t = v1[j].t;
-        i++;
         j++;
+        i++;
     }
     /** Se ainda  restam elementos na segunda partição **/
     while (k < size_v2)
     {
         /* Copiamos os elementos para o vetor resultado */
+        // v[i++] = v2[k++];
         strcpy(v[i].str, v2[k].str);
         v[i].t = v2[k].t;
-        i++;
         k++;
+        i++;
     }
 }
 
@@ -74,13 +78,13 @@ void merge_sort(pilotos *v, int size)
         int i;
         for (i = 0; i < mid; i++)
         {
-            v1[i].str = malloc(31 * sizeof(char));
+            // v1[i] = v[i];
             strcpy(v1[i].str, v[i].str);
             v1[i].t = v[i].t;
         }
         for (i = mid; i < size; i++)
         {
-            v2[i - mid].str = malloc(31 * sizeof(char));
+            // v2[i - mid] = v[i];
             strcpy(v2[i - mid].str, v[i].str);
             v2[i - mid].t = v[i].t;
         }
@@ -90,7 +94,7 @@ void merge_sort(pilotos *v, int size)
         merge_sort(v2, size - mid);
         /* Faz a junção das duas metades */
         merge(v, v1, v2, size);
-        // /* Libera o espaço alocado */
+        /* Libera o espaço alocado */
         // free(v1);
         // free(v2);
     }
@@ -98,7 +102,7 @@ void merge_sort(pilotos *v, int size)
 
 void print(pilotos *v, int n)
 {
-    
+
     for (int i = 0; i < n; i++)
     {
         int t = v[i].t;
@@ -107,7 +111,7 @@ void print(pilotos *v, int n)
         int ss = r / 1000;
         int ms = r % 1000;
 
-        printf("%d. %s - %d:%02d.%03d\n",i+1,v[i].str,m,ss,ms);      
+        printf("%d. %s - %d:%02d.%03d\n", i + 1, v[i].str, m, ss, ms);
     }
 }
 
@@ -115,20 +119,20 @@ int main()
 {
     int n;
     double x;
+    char str[20];
     scanf("%d", &n);
     pilotos *v = malloc(n * sizeof(pilotos));
     for (int i = 0; i < n; i++)
     {
-        v[i].str = malloc(31 * sizeof(char));
         scanf("%s", v[i].str);
         for (int j = 0; j < 3; j++)
         {
-            scanf("%lf", &x);
+            scanf("%s", str);
+            x = strtod(str, NULL);
             v[i].t += x * 1000;
         }
     }
     merge_sort(v, n);
     print(v, n);
     return 0;
-    
 }
